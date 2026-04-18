@@ -1,14 +1,11 @@
 export function Footer() {
   return (
-    <footer
-      className="border-t border-border px-6 pb-24 pt-8 text-center"
-      style={{ background: "var(--surface-2)" }}
-    >
-      <div className="mb-1.5 text-lg font-bold tracking-wider text-neon">
+    <footer className="border-t border-border bg-surface px-5 pb-6 pt-6 text-center">
+      <div className="mb-1 text-[15px] font-extrabold uppercase tracking-[1.5px] text-neon">
         BERNS Kalsada Kicks
       </div>
-      <div className="text-xs text-muted-foreground">
-        Streetwear thrift footwear — Legit. Quality. Abot-kaya.
+      <div className="text-[11px] text-muted-foreground/70">
+        Streetwear thrift footwear — Legit. Quality. Abot-kaya. © 2025
       </div>
     </footer>
   );

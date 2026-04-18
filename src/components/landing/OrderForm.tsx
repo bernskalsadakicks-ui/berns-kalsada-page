@@ -13,17 +13,20 @@ export function OrderForm({ formId }: { formId: string }) {
   };
 
   return (
-    <div id={formId} className="px-6 pb-8">
+    <div id={formId} className="px-5 pb-7">
       <form
         onSubmit={handleSubmit}
-        className="rounded-2xl border border-border bg-card p-6 shadow-neon-soft"
+        className="rounded-2xl border border-border bg-card p-5 sm:p-6"
       >
-        <div className="mb-4 text-base font-bold text-foreground">📝 Fill Out the Order Form</div>
+        <div className="mb-1 text-[15px] font-extrabold text-foreground">📝 Fill Out the Form</div>
+        <div className="mb-4 text-[11px] text-muted-foreground">
+          Kumpleto ang details para ma-hold ang item mo. First to pay basis.
+        </div>
 
         {submitted ? (
           <div className="rounded-lg border border-neon/30 bg-neon/10 p-5 text-center">
             <div className="mb-2 text-2xl">✅</div>
-            <div className="mb-1 font-bold text-foreground">Reservation Received!</div>
+            <div className="mb-1 font-extrabold text-foreground">Reservation Received!</div>
             <p className="text-sm text-muted-foreground">
               We'll confirm your order via Messenger within 1–2 hours. Salamat!
             </p>
@@ -63,7 +66,7 @@ export function OrderForm({ formId }: { formId: string }) {
             </Field>
             <button
               type="submit"
-              className="mt-2 w-full rounded-lg bg-neon py-3.5 text-sm font-bold text-neon-foreground shadow-neon-soft transition hover:shadow-neon-lg"
+              className="mt-1 w-full animate-glow-btn rounded-lg bg-neon py-3 text-[14px] font-extrabold text-neon-foreground transition hover:scale-[1.01]"
             >
               🔒 Reserve Item Now
             </button>
@@ -75,7 +78,7 @@ export function OrderForm({ formId }: { formId: string }) {
 }
 
 const inputCls =
-  "w-full rounded-md border border-border bg-input px-3 py-2.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:border-neon";
+  "w-full rounded-md border border-border bg-input px-3 py-2.5 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/50 focus:border-neon";
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (

@@ -1,3 +1,6 @@
+export type GradientKey = "g1" | "g2" | "g3" | "g4" | "g5" | "g6";
+export type TagVariant = "red" | "blue" | "green";
+
 export type Product = {
   id: string;
   brand: string;
@@ -6,9 +9,9 @@ export type Product = {
   price: string;
   condition: string;
   icon: string;
-  tag?: "Only 1 Pair" | "Limited";
-  tagVariant?: "neon" | "cyan";
-  gradient?: "g1" | "g2" | "g3" | "g4";
+  gradient: GradientKey;
+  tag?: "Only 1 Pair" | "Only 1" | "Limited" | "New";
+  tagVariant?: TagVariant;
 };
 
 export const featuredDrops: Product[] = [
@@ -20,8 +23,9 @@ export const featuredDrops: Product[] = [
     price: "₱1,200",
     condition: "9/10",
     icon: "👟",
+    gradient: "g1",
     tag: "Only 1 Pair",
-    tagVariant: "neon",
+    tagVariant: "red",
   },
   {
     id: "ub22",
@@ -31,8 +35,9 @@ export const featuredDrops: Product[] = [
     price: "₱1,500",
     condition: "9.5/10",
     icon: "🔵",
+    gradient: "g2",
     tag: "Limited",
-    tagVariant: "cyan",
+    tagVariant: "blue",
   },
   {
     id: "nb574",
@@ -41,9 +46,10 @@ export const featuredDrops: Product[] = [
     size: "US 8.5",
     price: "₱950",
     condition: "8/10",
-    icon: "🟢",
+    icon: "🟧",
+    gradient: "g3",
     tag: "Only 1 Pair",
-    tagVariant: "neon",
+    tagVariant: "red",
   },
   {
     id: "j1",
@@ -53,8 +59,9 @@ export const featuredDrops: Product[] = [
     price: "₱2,200",
     condition: "8.5/10",
     icon: "🔴",
+    gradient: "g4",
     tag: "Limited",
-    tagVariant: "neon",
+    tagVariant: "blue",
   },
   {
     id: "puma",
@@ -63,9 +70,10 @@ export const featuredDrops: Product[] = [
     size: "US 7.5",
     price: "₱750",
     condition: "9/10",
-    icon: "🟡",
+    icon: "🟨",
+    gradient: "g5",
     tag: "Only 1 Pair",
-    tagVariant: "neon",
+    tagVariant: "red",
   },
   {
     id: "vans",
@@ -74,9 +82,10 @@ export const featuredDrops: Product[] = [
     size: "US 9",
     price: "₱850",
     condition: "9/10",
-    icon: "⚫",
-    tag: "Limited",
-    tagVariant: "cyan",
+    icon: "⬛",
+    gradient: "g6",
+    tag: "New",
+    tagVariant: "green",
   },
 ];
 
@@ -90,6 +99,8 @@ export const allProducts: Product[] = [
     condition: "9/10",
     icon: "👟",
     gradient: "g1",
+    tag: "Only 1",
+    tagVariant: "red",
   },
   {
     id: "stansmith",
@@ -98,8 +109,10 @@ export const allProducts: Product[] = [
     size: "US 9.5",
     price: "₱1,100",
     condition: "9.5/10",
-    icon: "🟩",
-    gradient: "g2",
+    icon: "🟧",
+    gradient: "g3",
+    tag: "Limited",
+    tagVariant: "blue",
   },
   {
     id: "reebok",
@@ -109,7 +122,9 @@ export const allProducts: Product[] = [
     price: "₱800",
     condition: "8.5/10",
     icon: "⬜",
-    gradient: "g3",
+    gradient: "g2",
+    tag: "Only 1",
+    tagVariant: "red",
   },
   {
     id: "chuck70",
@@ -119,29 +134,24 @@ export const allProducts: Product[] = [
     price: "₱700",
     condition: "9/10",
     icon: "⭐",
-    gradient: "g4",
+    gradient: "g5",
+    tag: "New",
+    tagVariant: "green",
   },
 ];
 
-export const orderSteps: { title: string; desc: string }[] = [
-  {
-    title: "I-browse ang items",
-    desc: "Piliin ang gusto mo sa product grid o featured drops.",
-  },
-  {
-    title: "Mag-message o mag-reserve",
-    desc: 'I-tap ang "Reserve" o "Message Us" para ma-hold ang item.',
-  },
-  {
-    title: "Hintayin ang confirmation",
-    desc: "Mag-confirm kami within 1–2 hours. Legit lang.",
-  },
-  {
-    title: "Bayad via GCash",
-    desc: "First to pay, first to get. Fair and simple.",
-  },
-  {
-    title: "Padala na!",
-    desc: "Nationwide shipping. Mostly libre pa. 🚚",
-  },
+export const orderSteps: { icon: string; num: string; label: string }[] = [
+  { icon: "🔍", num: "Step 1", label: "Browse Items" },
+  { icon: "🛒", num: "Step 2", label: "Reserve Agad" },
+  { icon: "💳", num: "Step 3", label: "Pay via GCash" },
+  { icon: "🚚", num: "Step 4", label: "Ipadala na!" },
 ];
+
+export const gradientStyle: Record<GradientKey, string> = {
+  g1: "linear-gradient(145deg, var(--grad-1-from), var(--grad-1-to))",
+  g2: "linear-gradient(145deg, var(--grad-2-from), var(--grad-2-to))",
+  g3: "linear-gradient(145deg, var(--grad-3-from), var(--grad-3-to))",
+  g4: "linear-gradient(145deg, var(--grad-4-from), var(--grad-4-to))",
+  g5: "linear-gradient(145deg, var(--grad-5-from), var(--grad-5-to))",
+  g6: "linear-gradient(145deg, var(--grad-6-from), var(--grad-6-to))",
+};

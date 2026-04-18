@@ -1,18 +1,19 @@
 const items = [
-  "Authentic Branded Items",
+  "Authentic Branded",
   "Quality Checked",
   "First to Pay Basis",
   "Nationwide Shipping",
+  "GCash Accepted",
 ];
 
 export function TrustStrip() {
   return (
-    <div
-      className="flex flex-wrap justify-center gap-6 border-b border-border px-6 py-3"
-      style={{ background: "var(--surface-2)" }}
-    >
+    <div className="no-scrollbar flex overflow-x-auto border-b border-border bg-surface">
       {items.map((item) => (
-        <div key={item} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <div
+          key={item}
+          className="flex shrink-0 items-center gap-1.5 whitespace-nowrap border-r border-border px-4 py-2.5 text-[11px] text-muted-foreground"
+        >
           <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-neon" />
           {item}
         </div>
