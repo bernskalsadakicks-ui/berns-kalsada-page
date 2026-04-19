@@ -5,52 +5,70 @@ type HeroProps = {
 
 export function Hero({ onViewDrops, onMessage }: HeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-border/40 bg-background px-6 py-10 text-center sm:py-14">
-      {/* Top brand wordmark */}
-      <div className="absolute left-5 top-4 text-[11px] font-bold uppercase tracking-[1.5px] text-muted-foreground">
-        <span className="text-neon/80">BERNS</span> Kalsada Kicks
+    <section
+      className="relative overflow-hidden border-b px-5 pb-12 pt-11 text-center sm:pt-14"
+      style={{
+        background: "var(--gradient-hero)",
+        borderColor: "oklch(0.13 0.005 280)",
+      }}
+    >
+      {/* Brand mark top-left */}
+      <div className="absolute left-5 top-4 flex items-center gap-1.5">
+        <span className="h-[7px] w-[7px] animate-blink rounded-full bg-neon" />
+        <span className="text-[11px] font-extrabold uppercase tracking-[1.5px] text-muted-foreground">
+          <b className="text-neon font-extrabold">BERNS</b> Kalsada Kicks
+        </span>
       </div>
 
       {/* Radial neon glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute left-1/2 top-[-180px] h-[500px] w-[500px] -translate-x-1/2 rounded-full"
         style={{
           background:
-            "radial-gradient(ellipse 70% 50% at 50% -10%, oklch(0.92 0.31 138 / 0.07) 0%, transparent 70%)",
+            "radial-gradient(circle, oklch(0.92 0.31 138 / 0.055) 0%, transparent 70%)",
         }}
       />
 
-      <div className="relative mt-8 flex flex-col items-center sm:mt-6">
-        <span className="mb-4 inline-flex animate-pulse-badge items-center gap-1.5 rounded-full border border-neon/25 bg-neon/10 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[1px] text-neon">
-          🔥 New Drop Weekly
+      <div className="relative mt-6 flex flex-col items-center">
+        <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-neon/20 bg-neon/[0.07] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-[1.2px] text-neon">
+          <span className="h-1.5 w-1.5 animate-blink-fast rounded-full bg-neon" />
+          Weekly Drops
         </span>
 
-        <h1 className="mb-1.5 text-3xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl">
+        <h1 className="mb-2 text-[2rem] font-black leading-[1.05] tracking-[-1.5px] text-white sm:text-5xl">
           Premium Drip.
           <br />
-          <em className="font-extrabold not-italic text-neon [text-shadow:0_0_24px_oklch(0.92_0.31_138/0.5)]">
+          <em className="font-black not-italic text-neon [text-shadow:0_0_30px_oklch(0.92_0.31_138/0.4),0_0_60px_oklch(0.92_0.31_138/0.15)]">
             Hindi Presyong Mall.
           </em>
         </h1>
 
-        <p className="mx-auto mb-2 max-w-md text-sm leading-relaxed text-muted-foreground">
-          Branded. Thrifted. Legit. — Quality kicks para sa street-smart na Pinoy. Limited pairs lang.
+        <p className="mb-2 text-[14px] font-medium tracking-[0.2px] text-foreground/70">
+          Branded kicks. Iisa lang bawat pair. Unahan lang.
         </p>
-        <p className="mb-6 text-[11px] uppercase tracking-wider text-muted-foreground/70">
-          <span className="text-neon/70">●</span> First to pay basis &nbsp;·&nbsp; Quality-checked lahat
-        </p>
+
+        <span
+          className="mb-7 inline-flex items-center gap-1.5 rounded-md border px-3 py-1 text-[10px] font-bold uppercase tracking-[0.5px]"
+          style={{
+            background: "oklch(0.66 0.24 28 / 0.08)",
+            borderColor: "oklch(0.66 0.24 28 / 0.25)",
+            color: "oklch(0.78 0.16 25)",
+          }}
+        >
+          ⚠ First to Pay Basis
+        </span>
 
         <div className="flex flex-wrap justify-center gap-2.5">
           <button
             onClick={onViewDrops}
-            className="animate-glow-btn rounded-lg bg-neon px-5 py-3 text-sm font-extrabold tracking-wide text-neon-foreground transition hover:-translate-y-0.5"
+            className="animate-neon-pulse rounded-[9px] bg-neon px-6 py-3 text-[13px] font-black tracking-[0.3px] text-neon-foreground transition hover:-translate-y-0.5"
           >
             🔥 View Latest Drop
           </button>
           <button
             onClick={onMessage}
-            className="rounded-lg border border-cyan/35 bg-transparent px-5 py-3 text-sm font-bold text-cyan shadow-cyan-soft transition hover:-translate-y-0.5 hover:border-cyan hover:bg-cyan/10"
+            className="rounded-[9px] border border-cyan/30 bg-transparent px-6 py-3 text-[13px] font-bold text-cyan transition hover:-translate-y-0.5 hover:border-cyan/60 hover:bg-cyan/[0.07] hover:shadow-cyan-soft"
           >
             💬 Message Us
           </button>
