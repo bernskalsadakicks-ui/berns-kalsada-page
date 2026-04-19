@@ -75,6 +75,17 @@ export function ProductModal({ product, onClose, onMessage, onReserve }: Props) 
           <Spec label="Cond" value={product.condition} />
           <SpecBadge>Auth ✓</SpecBadge>
           <SpecBadge>Legit Only</SpecBadge>
+          {product.status && product.status !== "AVAILABLE" && (
+            <span
+              className={`rounded-[5px] border px-2.5 py-1 text-[11px] font-black uppercase tracking-[0.5px] ${
+                product.status === "SOLD"
+                  ? "border-danger/40 bg-danger/10 text-danger"
+                  : "border-cyan/40 bg-cyan/10 text-cyan"
+              }`}
+            >
+              {product.status}
+            </span>
+          )}
         </div>
 
         <div className="text-[1.45rem] font-black text-neon [text-shadow:0_0_20px_oklch(0.92_0.31_138/0.3)]">
@@ -84,20 +95,31 @@ export function ProductModal({ product, onClose, onMessage, onReserve }: Props) 
           ⚠ No bogus buyers. First to pay gets the item.
         </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={onMessage}
-            className="flex-1 rounded-lg border border-cyan/35 bg-transparent py-3 text-[13px] font-extrabold text-cyan transition hover:bg-cyan/[0.08]"
-          >
-            💬 Message Now
-          </button>
-          <button
-            onClick={onReserve}
-            className="flex-[1.2] animate-neon-pulse-fast rounded-lg bg-neon py-3 text-[13px] font-black text-neon-foreground transition hover:scale-[1.01]"
-          >
-            📝 Reserve via Form
-          </button>
-        </div>
+        {(() => {
+          const status = product.status ?? "AVAILABLE";
+          const isAvailable = status === "AVAILABLE";
+          return (
+            <div className="flex gap-2">
+              <button
+                onClick={onMessage}
+                className="flex-1 rounded-lg border border-cyan/35 bg-transparent py-3 text-[13px] font-extrabold text-cyan transition hover:bg-cyan/[0.08]"
+              >
+                💬 Message Now
+              </button>
+              <button
+                onClick={() => isAvailable && onReserve()}
+                disabled={!isAvailable}
+                className="flex-[1.2] animate-neon-pulse-fast rounded-lg bg-neon py-3 text-[13px] font-black text-neon-foreground transition hover:scale-[1.01] disabled:cursor-not-allowed disabled:animate-none disabled:bg-surface-4 disabled:text-muted-foreground disabled:opacity-70"
+              >
+                {isAvailable
+                  ? "📝 Reserve via Form"
+                  : status === "SOLD"
+                    ? "❌ Sold Out"
+                    : "⏳ Reserved"}
+              </button>
+            </div>
+          );
+        })()}
       </div>
     </div>
   );

@@ -13,6 +13,9 @@ const tagClasses: Record<TagVariant, string> = {
 };
 
 export function ProductCard({ product, onClick, onReserve }: Props) {
+  const status = product.status ?? "AVAILABLE";
+  const isAvailable = status === "AVAILABLE";
+
   return (
     <div className="group overflow-hidden rounded-[13px] border border-border bg-surface-3 transition hover:-translate-y-1 hover:border-neon/50 hover:shadow-[0_8px_28px_oklch(0.92_0.31_138/0.09)]">
       <button
@@ -20,7 +23,7 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
         className="relative flex aspect-square w-full items-center justify-center text-5xl"
         style={{ background: gradientStyle[product.gradient] }}
       >
-        <span>{product.icon}</span>
+        <span className={!isAvailable ? "opacity-40 grayscale" : ""}>{product.icon}</span>
         {product.tag && (
           <span
             className={`absolute left-[7px] top-[7px] rounded-[4px] px-[7px] py-[3px] text-[7.5px] font-black uppercase tracking-[0.8px] ${tagClasses[product.tagVariant ?? "red"]}`}
@@ -28,19 +31,32 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
             {product.tag}
           </span>
         )}
+        {!isAvailable && (
+          <span
+            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md border px-2.5 py-1 text-[10px] font-black uppercase tracking-[1px] ${
+              status === "SOLD"
+                ? "border-danger/60 bg-black/80 text-danger"
+                : "border-cyan/60 bg-black/80 text-cyan"
+            }`}
+          >
+            {status}
+          </span>
+        )}
         <span className="absolute bottom-1.5 right-1.5 rounded-[4px] border border-neon/30 bg-black/[0.82] px-1.5 py-[2px] text-[8px] font-extrabold text-neon">
           {product.condition}
         </span>
-        <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 hidden border-t px-1.5 py-[3px] text-center text-[8px] font-semibold group-hover:block"
-          style={{
-            background: "oklch(0.6 0.25 0 / 0.12)",
-            borderColor: "oklch(0.6 0.25 0 / 0.25)",
-            color: "oklch(0.72 0.2 350)",
-          }}
-        >
-          May ibang tumitingin dito ngayon
-        </div>
+        {isAvailable && (
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 hidden border-t px-1.5 py-[3px] text-center text-[8px] font-semibold group-hover:block"
+            style={{
+              background: "oklch(0.6 0.25 0 / 0.12)",
+              borderColor: "oklch(0.6 0.25 0 / 0.25)",
+              color: "oklch(0.72 0.2 350)",
+            }}
+          >
+            May ibang tumitingin dito ngayon
+          </div>
+        )}
       </button>
       <div className="px-3 pb-3 pt-2.5">
         <div className="mb-0.5 text-[10px] font-black uppercase tracking-[1.2px] text-neon">
@@ -52,7 +68,11 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
           <span className="text-[10px] text-muted-foreground">{product.size}</span>
         </div>
         <div className="mb-1.5 text-[10px] italic text-muted-foreground/60">
-          Tap to reserve before it's gone
+          {isAvailable
+            ? "Tap to reserve before it's gone"
+            : status === "RESERVED"
+              ? "Reserved — waiting for payment"
+              : "Sold out — abangan susunod na drop"}
         </div>
         <div className="flex gap-1.5">
           <button
@@ -62,10 +82,11 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
             Details
           </button>
           <button
-            onClick={() => onReserve(product)}
-            className="flex-1 rounded-md bg-neon py-1.5 text-[10px] font-black text-neon-foreground transition hover:opacity-90"
+            onClick={() => isAvailable && onReserve(product)}
+            disabled={!isAvailable}
+            className="flex-1 rounded-md bg-neon py-1.5 text-[10px] font-black text-neon-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:bg-surface-4 disabled:text-muted-foreground disabled:opacity-60"
           >
-            Reserve
+            {isAvailable ? "Reserve" : status === "SOLD" ? "Sold" : "Reserved"}
           </button>
         </div>
       </div>

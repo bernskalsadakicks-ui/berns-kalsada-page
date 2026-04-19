@@ -1,5 +1,6 @@
 export type GradientKey = "g1" | "g2" | "g3" | "g4" | "g5" | "g6";
 export type TagVariant = "red" | "blue" | "green";
+export type ProductStatus = "AVAILABLE" | "RESERVED" | "SOLD";
 
 export type Product = {
   id: string;
@@ -12,6 +13,7 @@ export type Product = {
   gradient: GradientKey;
   tag?: "Only 1 Pair" | "Only 1" | "Limited" | "New";
   tagVariant?: TagVariant;
+  status?: ProductStatus;
 };
 
 export const featuredDrops: Product[] = [
@@ -38,6 +40,7 @@ export const featuredDrops: Product[] = [
     gradient: "g2",
     tag: "Limited",
     tagVariant: "blue",
+    status: "RESERVED",
   },
   {
     id: "nb574",
@@ -86,6 +89,7 @@ export const featuredDrops: Product[] = [
     gradient: "g6",
     tag: "New",
     tagVariant: "green",
+    status: "SOLD",
   },
 ];
 
