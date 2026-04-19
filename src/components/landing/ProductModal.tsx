@@ -75,6 +75,17 @@ export function ProductModal({ product, onClose, onMessage, onReserve }: Props) 
           <Spec label="Cond" value={product.condition} />
           <SpecBadge>Auth ✓</SpecBadge>
           <SpecBadge>Legit Only</SpecBadge>
+          {product.status && product.status !== "AVAILABLE" && (
+            <span
+              className={`rounded-[5px] border px-2.5 py-1 text-[11px] font-black uppercase tracking-[0.5px] ${
+                product.status === "SOLD"
+                  ? "border-danger/40 bg-danger/10 text-danger"
+                  : "border-cyan/40 bg-cyan/10 text-cyan"
+              }`}
+            >
+              {product.status}
+            </span>
+          )}
         </div>
 
         <div className="text-[1.45rem] font-black text-neon [text-shadow:0_0_20px_oklch(0.92_0.31_138/0.3)]">
