@@ -12,6 +12,9 @@ const tagClasses: Record<TagVariant, string> = {
 };
 
 export function DropCard({ product, onClick }: Props) {
+  const status = product.status ?? "AVAILABLE";
+  const isAvailable = status === "AVAILABLE";
+
   return (
     <button
       onClick={() => onClick(product)}
@@ -21,7 +24,7 @@ export function DropCard({ product, onClick }: Props) {
         className="relative flex h-[122px] items-center justify-center text-[2.8rem]"
         style={{ background: gradientStyle[product.gradient] }}
       >
-        <span>{product.icon}</span>
+        <span className={!isAvailable ? "opacity-40 grayscale" : ""}>{product.icon}</span>
         {product.tag && (
           <span
             className={`absolute left-[7px] top-[7px] rounded-[4px] px-[7px] py-[3px] text-[8px] font-black uppercase tracking-[0.8px] ${tagClasses[product.tagVariant ?? "red"]}`}
@@ -29,9 +32,22 @@ export function DropCard({ product, onClick }: Props) {
             {product.tag}
           </span>
         )}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden bg-black/75 px-1.5 py-[3px] text-center text-[7.5px] font-semibold text-[oklch(0.7_0.25_350)] group-hover:block">
-          May tumitingin dito ngayon 👀
-        </div>
+        {!isAvailable && (
+          <span
+            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md border px-2 py-0.5 text-[9px] font-black uppercase tracking-[1px] ${
+              status === "SOLD"
+                ? "border-danger/60 bg-black/80 text-danger"
+                : "border-cyan/60 bg-black/80 text-cyan"
+            }`}
+          >
+            {status}
+          </span>
+        )}
+        {isAvailable && (
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden bg-black/75 px-1.5 py-[3px] text-center text-[7.5px] font-semibold text-[oklch(0.7_0.25_350)] group-hover:block">
+            May tumitingin dito ngayon 👀
+          </div>
+        )}
       </div>
       <div className="px-3 pb-3 pt-2.5">
         <div className="mb-0.5 text-[10px] font-black uppercase tracking-[1.2px] text-neon">
