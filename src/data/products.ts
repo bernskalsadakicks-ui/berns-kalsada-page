@@ -40,6 +40,7 @@ export const featuredDrops: Product[] = [
     gradient: "g2",
     tag: "Limited",
     tagVariant: "blue",
+    status: "RESERVED",
   },
   {
     id: "nb574",
@@ -88,6 +89,7 @@ export const featuredDrops: Product[] = [
     gradient: "g6",
     tag: "New",
     tagVariant: "green",
+    status: "SOLD",
   },
 ];
 
