@@ -3,6 +3,8 @@ import { useCallback, useState } from "react";
 import { Hero } from "@/components/landing/Hero";
 import { TrustStrip } from "@/components/landing/TrustStrip";
 import { SectionHeader } from "@/components/landing/SectionHeader";
+import { WhyChooseUs } from "@/components/landing/WhyChooseUs";
+import { AlertBanner } from "@/components/landing/AlertBanner";
 import { DropCard } from "@/components/landing/DropCard";
 import { ProductCard } from "@/components/landing/ProductCard";
 import { HowToOrder } from "@/components/landing/HowToOrder";
@@ -64,10 +66,17 @@ function Index() {
       <Hero onViewDrops={() => scrollTo("featured")} onMessage={openMessenger} />
       <TrustStrip />
 
+      <section>
+        <SectionHeader title="Why People Choose Us" />
+        <WhyChooseUs />
+      </section>
+
+      <AlertBanner text="Reservation is NOT final. First to pay gets the item. Wag magtambay kung serious ka." />
+
       <section id="featured">
         <SectionHeader title="Latest Drop" action="See All →" onAction={() => scrollTo("all-items")} />
-        <div className="no-scrollbar overflow-x-auto px-6 pb-6">
-          <div className="flex w-max gap-3">
+        <div className="no-scrollbar overflow-x-auto pb-2">
+          <div className="flex w-max gap-2.5 px-5">
             {featuredDrops.map((p) => (
               <DropCard key={p.id} product={p} onClick={setActive} />
             ))}
@@ -77,7 +86,7 @@ function Index() {
 
       <section id="all-items">
         <SectionHeader title="All Items" action="Filter ↓" />
-        <div className="grid grid-cols-2 gap-2.5 px-6 pb-6 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2.5 px-5 pb-5 sm:grid-cols-3 lg:grid-cols-4">
           {allProducts.map((p) => (
             <ProductCard
               key={p.id}
@@ -93,6 +102,8 @@ function Index() {
         <SectionHeader title="How to Order" />
         <HowToOrder />
       </section>
+
+      <AlertBanner text="Reservation is NOT final. First to pay gets the item. Wag hayaang maunahan ka." />
 
       <section id="reserve">
         <SectionHeader title="Reserve an Item" />
