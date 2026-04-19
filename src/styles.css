@@ -66,27 +66,29 @@
   --color-grad-6-from: var(--grad-6-from);
   --color-grad-6-to: var(--grad-6-to);
 
-  --animate-glow-btn: glow-btn 2s ease-in-out infinite;
-  --animate-glow-btn-slow: glow-btn 2.5s ease-in-out infinite;
+  --animate-neon-pulse: neon-pulse 2.2s ease-in-out infinite;
+  --animate-neon-pulse-fast: neon-pulse 2s ease-in-out infinite;
+  --animate-blink: blink 2s ease-in-out infinite;
+  --animate-blink-fast: blink 1.5s ease-in-out infinite;
   --animate-pulse-badge: pulse-badge 2.5s ease-in-out infinite;
 }
 
 :root {
   --radius: 0.625rem;
 
-  /* Deep streetwear base — exact match to #090909 family */
-  --background: oklch(0.075 0 0); /* #090909 */
-  --foreground: oklch(0.965 0 0); /* #f0f0f0 */
+  /* v3 deep streetwear base — #070709 */
+  --background: oklch(0.06 0.005 280); /* #070709 */
+  --foreground: oklch(0.955 0 0); /* #efefef */
 
-  --surface: oklch(0.105 0 0); /* #0f0f0f */
-  --surface-2: oklch(0.105 0 0);
-  --surface-3: oklch(0.135 0 0); /* #161616 */
-  --surface-4: oklch(0.16 0 0); /* #1c1c1c */
+  --surface: oklch(0.085 0.005 280); /* #0d0d10 */
+  --surface-2: oklch(0.085 0.005 280);
+  --surface-3: oklch(0.115 0.005 280); /* #131318 */
+  --surface-4: oklch(0.135 0.005 280); /* #18181f */
 
-  --card: oklch(0.135 0 0); /* #161616 */
-  --card-foreground: oklch(0.965 0 0);
-  --popover: oklch(0.105 0 0);
-  --popover-foreground: oklch(0.965 0 0);
+  --card: oklch(0.115 0.005 280); /* #131318 */
+  --card-foreground: oklch(0.955 0 0);
+  --popover: oklch(0.085 0.005 280);
+  --popover-foreground: oklch(0.955 0 0);
 
   /* Neon green primary — #39FF14 */
   --neon: oklch(0.92 0.31 138);
@@ -110,8 +112,8 @@
   --accent-foreground: oklch(0.05 0 0);
   --destructive: oklch(0.66 0.24 28);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.205 0 0); /* #252525 */
-  --input: oklch(0.115 0 0); /* #0c0c0c */
+  --border: oklch(0.18 0.005 280); /* #232328 */
+  --input: oklch(0.075 0.005 280); /* #0a0a0d */
   --ring: oklch(0.92 0.31 138);
 
   /* Glows */
@@ -120,19 +122,22 @@
   --shadow-neon-lg: 0 0 40px oklch(0.92 0.31 138 / 0.65);
   --shadow-cyan-soft: 0 0 18px oklch(0.79 0.16 220 / 0.28);
 
-  /* Card image gradients (mapped from v2 .g1–.g6) */
-  --grad-1-from: oklch(0.18 0.05 250); /* deep navy */
-  --grad-1-to: oklch(0.28 0.08 255);
-  --grad-2-from: oklch(0.16 0.09 295); /* dark violet */
-  --grad-2-to: oklch(0.28 0.17 290);
-  --grad-3-from: oklch(0.17 0.06 145); /* deep green */
-  --grad-3-to: oklch(0.27 0.12 145);
-  --grad-4-from: oklch(0.18 0.07 30); /* dark crimson */
-  --grad-4-to: oklch(0.27 0.13 35);
-  --grad-5-from: oklch(0.18 0.05 80); /* dark amber */
-  --grad-5-to: oklch(0.27 0.1 80);
-  --grad-6-from: oklch(0.13 0.05 265); /* near-black indigo */
-  --grad-6-to: oklch(0.23 0.1 265);
+  /* Hero gradient */
+  --gradient-hero: linear-gradient(170deg, #0a0a12 0%, #07070a 60%, #080c08 100%);
+
+  /* v3 card image gradients — exact match to .g1–.g6 */
+  --grad-1-from: oklch(0.16 0.04 250); /* #0c1828 deep navy */
+  --grad-1-to: oklch(0.24 0.06 255); /* #1a2a40 */
+  --grad-2-from: oklch(0.13 0.1 295); /* #140828 dark violet */
+  --grad-2-to: oklch(0.22 0.18 290); /* #2a1565 */
+  --grad-3-from: oklch(0.16 0.07 145); /* #081808 deep green */
+  --grad-3-to: oklch(0.24 0.12 145); /* #153015 */
+  --grad-4-from: oklch(0.17 0.08 30); /* #1c0808 dark crimson */
+  --grad-4-to: oklch(0.24 0.13 35); /* #341010 */
+  --grad-5-from: oklch(0.16 0.05 80); /* #181208 dark amber */
+  --grad-5-to: oklch(0.23 0.09 80); /* #302008 */
+  --grad-6-from: oklch(0.1 0.05 265); /* #080818 near-black indigo */
+  --grad-6-to: oklch(0.18 0.1 265); /* #101030 */
 }
 
 .dark {
@@ -178,13 +183,27 @@
 }
 
 /* ===== Animations ===== */
-@keyframes glow-btn {
+@keyframes neon-pulse {
   0%,
   100% {
-    box-shadow: 0 0 18px oklch(0.92 0.31 138 / 0.35);
+    box-shadow:
+      0 0 16px oklch(0.92 0.31 138 / 0.4),
+      0 4px 24px oklch(0.92 0.31 138 / 0.2);
   }
   50% {
-    box-shadow: 0 0 32px oklch(0.92 0.31 138 / 0.7);
+    box-shadow:
+      0 0 28px oklch(0.92 0.31 138 / 0.7),
+      0 4px 40px oklch(0.92 0.31 138 / 0.35);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
   }
 }
 
@@ -195,15 +214,5 @@
   }
   50% {
     box-shadow: 0 0 0 6px oklch(0.92 0.31 138 / 0);
-  }
-}
-
-@keyframes hero-glow {
-  0%,
-  100% {
-    opacity: 0.6;
-  }
-  50% {
-    opacity: 1;
   }
 }
