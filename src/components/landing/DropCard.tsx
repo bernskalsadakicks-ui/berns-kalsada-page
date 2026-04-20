@@ -18,7 +18,7 @@ export function DropCard({ product, onClick }: Props) {
   return (
     <button
       onClick={() => onClick(product)}
-      className="group w-[152px] shrink-0 overflow-hidden rounded-[13px] border border-border bg-surface-3 text-left transition hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/55 hover:shadow-[0_12px_32px_oklch(0.92_0.31_138/0.1)]"
+      className="group w-[152px] shrink-0 overflow-hidden rounded-[6px] border border-border bg-surface-3 text-left transition hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/55 hover:shadow-[0_12px_32px_oklch(0.92_0.31_138/0.1)]"
     >
       <div
         className="relative flex h-[122px] items-center justify-center text-[2.8rem]"
