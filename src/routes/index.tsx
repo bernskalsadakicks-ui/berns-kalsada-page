@@ -99,7 +99,7 @@ function Index() {
         <SectionHeader title="Latest Drop" action="See All →" onAction={() => scrollTo("all-items")} />
         <div className="no-scrollbar overflow-x-auto pb-2">
           <div className="flex w-max gap-3 px-5">
-            {featured.map((p) => (
+            {featured.map((p: Product) => (
               <DropCard key={p.id} product={p} onClick={setActive} />
             ))}
           </div>
@@ -109,7 +109,7 @@ function Index() {
       <section id="all-items" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="All Items" action="Filter ↓" />
         <div className="grid grid-cols-2 gap-3 px-5 sm:grid-cols-3 lg:grid-cols-4">
-          {all.map((p) => (
+          {all.map((p: Product) => (
             <ProductCard
               key={p.id}
               product={p}
