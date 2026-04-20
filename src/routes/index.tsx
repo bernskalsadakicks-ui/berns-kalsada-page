@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
     ],
   }),
-  loader: async () => {
+  loader: async (): Promise<{ featured: Product[]; all: Product[] }> => {
     const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
     return { featured, all };
   },
