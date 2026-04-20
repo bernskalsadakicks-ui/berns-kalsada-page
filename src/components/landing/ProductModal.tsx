@@ -48,10 +48,26 @@ export function ProductModal({ product, onClose, onMessage, onReserve }: Props) 
         <div className="mx-auto mb-5 h-[3px] w-8 rounded-sm bg-surface-4 sm:hidden" />
 
         <div
-          className="mb-4 flex h-[155px] items-center justify-center rounded-xl text-[5rem]"
-          style={{ background: gradientStyle[product.gradient] }}
+          className="mb-4 flex h-[155px] items-center justify-center overflow-hidden rounded-xl text-[5rem]"
+          style={
+            !product.image
+              ? {
+                  background: product.gradient
+                    ? gradientStyle[product.gradient]
+                    : "linear-gradient(145deg, var(--grad-1-from), var(--grad-1-to))",
+                }
+              : undefined
+          }
         >
-          {product.icon}
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={`${product.brand} ${product.name}`}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            product.icon
+          )}
         </div>
 
         <div className="mb-2.5 flex flex-wrap gap-1.5">
