@@ -17,7 +17,7 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
   const isAvailable = status === "AVAILABLE";
 
   return (
-    <div className="group overflow-hidden rounded-[13px] border border-border bg-surface-3 transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/70 hover:shadow-[0_0_0_1px_oklch(0.92_0.31_138/0.35),0_12px_40px_oklch(0.92_0.31_138/0.18)]">
+    <div className="group overflow-hidden rounded-[6px] border border-border bg-surface-3 transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/70 hover:shadow-[0_0_0_1px_oklch(0.92_0.31_138/0.35),0_12px_40px_oklch(0.92_0.31_138/0.18)]">
       <button
         onClick={() => onClick(product)}
         className="relative flex aspect-square w-full items-center justify-center overflow-hidden text-5xl"

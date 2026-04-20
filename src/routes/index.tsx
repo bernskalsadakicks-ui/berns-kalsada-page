@@ -62,21 +62,25 @@ function Index() {
   );
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-background pb-16">
+    <div className="min-h-screen w-full overflow-x-hidden bg-background pb-24">
       <Hero onViewDrops={() => scrollTo("featured")} onMessage={openMessenger} />
       <TrustStrip />
 
-      <section>
+      <section className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="Why People Choose Us" />
         <WhyChooseUs />
       </section>
 
       <AlertBanner text="Reservation is NOT final. First to pay gets the item. Wag magtambay kung serious ka." />
 
-      <section id="featured">
+      <section
+        id="featured"
+        className="py-14"
+        style={{ background: "var(--gradient-section-alt)" }}
+      >
         <SectionHeader title="Latest Drop" action="See All →" onAction={() => scrollTo("all-items")} />
         <div className="no-scrollbar overflow-x-auto pb-2">
-          <div className="flex w-max gap-2.5 px-5">
+          <div className="flex w-max gap-3 px-5">
             {featuredDrops.map((p) => (
               <DropCard key={p.id} product={p} onClick={setActive} />
             ))}
@@ -84,9 +88,9 @@ function Index() {
         </div>
       </section>
 
-      <section id="all-items">
+      <section id="all-items" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="All Items" action="Filter ↓" />
-        <div className="grid grid-cols-2 gap-2.5 px-5 pb-5 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 px-5 sm:grid-cols-3 lg:grid-cols-4">
           {allProducts.map((p) => (
             <ProductCard
               key={p.id}
@@ -98,19 +102,19 @@ function Index() {
         </div>
       </section>
 
-      <section>
+      <section className="py-14" style={{ background: "var(--gradient-section-alt)" }}>
         <SectionHeader title="How to Order" />
         <HowToOrder />
       </section>
 
       <AlertBanner text="Reservation is NOT final. First to pay gets the item. Wag hayaang maunahan ka." />
 
-      <section id="reserve">
+      <section id="reserve" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="Reserve an Item" />
         <OrderForm formId="reserve-form" />
       </section>
 
-      <section>
+      <section className="py-14" style={{ background: "var(--gradient-section-alt)" }}>
         <SectionHeader title="Payment & Shipping" />
         <PaymentShipping />
       </section>
