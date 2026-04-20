@@ -13,42 +13,71 @@ const tagClasses: Record<TagVariant, string> = {
 };
 
 export function ProductCard({ product, onClick, onReserve }: Props) {
-  const status = product.status ?? "AVAILABLE";
+  const status = product.status;
   const isAvailable = status === "AVAILABLE";
+  const isPending = status === "PENDING";
+  const isReserved = status === "RESERVED";
+  const isSold = status === "SOLD";
+  const canReserve = isAvailable || isPending;
+
+  const visualBg = product.gradient
+    ? gradientStyle[product.gradient]
+    : "linear-gradient(145deg, var(--grad-1-from), var(--grad-1-to))";
 
   return (
-    <div className="group overflow-hidden rounded-[6px] border border-border bg-surface-3 transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/70 hover:shadow-[0_0_0_1px_oklch(0.92_0.31_138/0.35),0_12px_40px_oklch(0.92_0.31_138/0.18)]">
+    <div
+      className={`group overflow-hidden rounded-[6px] border border-border bg-surface-3 transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/70 hover:shadow-[0_0_0_1px_oklch(0.92_0.31_138/0.35),0_12px_40px_oklch(0.92_0.31_138/0.18)] ${
+        isReserved ? "opacity-75" : ""
+      }`}
+    >
       <button
         onClick={() => onClick(product)}
         className="relative flex aspect-square w-full items-center justify-center overflow-hidden text-5xl"
-        style={{ background: gradientStyle[product.gradient] }}
+        style={!product.image ? { background: visualBg } : undefined}
       >
-        <span
-          className={`transition-transform duration-300 group-hover:scale-110 ${!isAvailable ? "opacity-40 grayscale" : ""}`}
-        >
-          {product.icon}
-        </span>
-        {product.tag && (
+        {product.image ? (
+          <img
+            src={product.image}
+            alt={`${product.brand} ${product.name}`}
+            loading="lazy"
+            className={`h-full w-full object-cover transition-transform duration-300 group-hover:scale-110 ${
+              isSold ? "opacity-40 grayscale" : ""
+            }`}
+          />
+        ) : (
+          <span
+            className={`transition-transform duration-300 group-hover:scale-110 ${isSold ? "opacity-40 grayscale" : ""}`}
+          >
+            {product.icon}
+          </span>
+        )}
+
+        {product.tag && !isSold && (
           <span
             className={`absolute right-[7px] top-[7px] rounded-[5px] px-2 py-[3px] text-[8px] font-black uppercase tracking-[0.9px] shadow-[0_2px_10px_oklch(0_0_0/0.4)] ${tagClasses[product.tagVariant ?? "red"]}`}
           >
             {product.tag}
           </span>
         )}
-        {!isAvailable && (
-          <span
-            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md border px-2.5 py-1 text-[10px] font-black uppercase tracking-[1px] ${
-              status === "SOLD"
-                ? "border-danger/60 bg-black/80 text-danger"
-                : "border-cyan/60 bg-black/80 text-cyan"
-            }`}
-          >
-            {status}
+
+        {isReserved && (
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-md border border-cyan/60 bg-black/80 px-2.5 py-1 text-[10px] font-black uppercase tracking-[1px] text-cyan">
+            RESERVED
           </span>
         )}
+
+        {isSold && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/70">
+            <span className="rounded-md border border-danger/60 bg-black/80 px-3 py-1 text-[12px] font-black uppercase tracking-[1.5px] text-danger">
+              SOLD
+            </span>
+          </div>
+        )}
+
         <span className="absolute bottom-1.5 left-1.5 rounded-[4px] border border-neon/30 bg-black/[0.82] px-1.5 py-[2px] text-[8px] font-extrabold text-neon">
           {product.condition}
         </span>
+
         {isAvailable && (
           <div
             className="pointer-events-none absolute inset-x-0 bottom-0 hidden border-t px-1.5 py-[3px] text-center text-[8px] font-semibold group-hover:block"
@@ -74,11 +103,10 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
           <span className="text-[10px] text-muted-foreground">{product.size}</span>
         </div>
         <div className="mb-2 text-[10px] font-semibold text-danger/90">
-          {isAvailable
-            ? "May kaagaw ka dito 👀"
-            : status === "RESERVED"
-              ? "Reserved — waiting for payment"
-              : "Sold out — abangan susunod na drop"}
+          {isAvailable && "May kaagaw ka dito 👀"}
+          {isPending && <span className="text-cyan">May tumitingen 👀</span>}
+          {isReserved && "Reserved — waiting for payment"}
+          {isSold && "Sold out — abangan susunod na drop"}
         </div>
         <div className="flex gap-1.5">
           <button
@@ -88,11 +116,11 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
             Details
           </button>
           <button
-            onClick={() => isAvailable && onReserve(product)}
-            disabled={!isAvailable}
+            onClick={() => canReserve && onReserve(product)}
+            disabled={!canReserve}
             className="flex-1 rounded-md bg-neon py-1.5 text-[10px] font-black text-neon-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:bg-surface-4 disabled:text-muted-foreground disabled:opacity-60"
           >
-            {isAvailable ? "Reserve" : status === "SOLD" ? "Sold" : "Reserved"}
+            {isSold ? "Sold" : isReserved ? "Reserved" : "Reserve"}
           </button>
         </div>
       </div>
