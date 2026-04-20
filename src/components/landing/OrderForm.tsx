@@ -1,9 +1,7 @@
 import { useState, type FormEvent } from "react";
-import { allProducts, featuredDrops } from "@/data/products";
+import type { Product } from "@/data/products";
 
-const items = [...featuredDrops, ...allProducts];
-
-export function OrderForm({ formId }: { formId: string }) {
+export function OrderForm({ formId, items = [] }: { formId: string; items?: Product[] }) {
   const [submitted, setSubmitted] = useState(false);
   const [selected, setSelected] = useState("");
 

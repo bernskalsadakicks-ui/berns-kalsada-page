@@ -13,7 +13,8 @@ import { PaymentShipping } from "@/components/landing/PaymentShipping";
 import { ProductModal } from "@/components/landing/ProductModal";
 import { StickyCTA } from "@/components/landing/StickyCTA";
 import { Footer } from "@/components/landing/Footer";
-import { allProducts, featuredDrops, type Product } from "@/data/products";
+import { fetchAllProducts, fetchFeaturedProducts } from "@/services/products";
+import type { Product } from "@/data/products";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,10 +34,28 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
     ],
   }),
+  loader: async () => {
+    const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
+    return { featured, all };
+  },
+  errorComponent: ({ error }) => (
+    <div className="flex min-h-screen items-center justify-center p-6 text-center">
+      <div>
+        <h1 className="mb-2 text-xl font-black text-white">Something went wrong</h1>
+        <p className="text-sm text-muted-foreground">{error.message}</p>
+      </div>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="flex min-h-screen items-center justify-center p-6">
+      <p className="text-muted-foreground">Page not found</p>
+    </div>
+  ),
   component: Index,
 });
 
 function Index() {
+  const { featured, all } = Route.useLoaderData();
   const [active, setActive] = useState<Product | null>(null);
 
   const scrollTo = useCallback((id: string) => {
@@ -51,7 +70,6 @@ function Index() {
     (p: Product) => {
       setActive(null);
       scrollTo("reserve-form");
-      // Slight delay so user notices the form
       setTimeout(() => {
         const firstInput = document.querySelector<HTMLInputElement>("#reserve-form input");
         firstInput?.focus({ preventScroll: true });
@@ -81,7 +99,7 @@ function Index() {
         <SectionHeader title="Latest Drop" action="See All →" onAction={() => scrollTo("all-items")} />
         <div className="no-scrollbar overflow-x-auto pb-2">
           <div className="flex w-max gap-3 px-5">
-            {featuredDrops.map((p) => (
+            {featured.map((p) => (
               <DropCard key={p.id} product={p} onClick={setActive} />
             ))}
           </div>
@@ -91,7 +109,7 @@ function Index() {
       <section id="all-items" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="All Items" action="Filter ↓" />
         <div className="grid grid-cols-2 gap-3 px-5 sm:grid-cols-3 lg:grid-cols-4">
-          {allProducts.map((p) => (
+          {all.map((p) => (
             <ProductCard
               key={p.id}
               product={p}
@@ -111,7 +129,7 @@ function Index() {
 
       <section id="reserve" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="Reserve an Item" />
-        <OrderForm formId="reserve-form" />
+        <OrderForm formId="reserve-form" items={[...featured, ...all]} />
       </section>
 
       <section className="py-14" style={{ background: "var(--gradient-section-alt)" }}>

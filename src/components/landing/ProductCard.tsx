@@ -104,7 +104,7 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
         </div>
         <div className="mb-2 text-[10px] font-semibold text-danger/90">
           {isAvailable && "May kaagaw ka dito 👀"}
-          {isPending && <span className="text-cyan">May tumitingen 👀</span>}
+          {isPending && <span className="text-cyan">May tumitingin 👀</span>}
           {isReserved && "Reserved — waiting for payment"}
           {isSold && "Sold out — abangan susunod na drop"}
         </div>
