@@ -17,16 +17,20 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
   const isAvailable = status === "AVAILABLE";
 
   return (
-    <div className="group overflow-hidden rounded-[13px] border border-border bg-surface-3 transition hover:-translate-y-1 hover:border-neon/50 hover:shadow-[0_8px_28px_oklch(0.92_0.31_138/0.09)]">
+    <div className="group overflow-hidden rounded-[13px] border border-border bg-surface-3 transition duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:border-neon/70 hover:shadow-[0_0_0_1px_oklch(0.92_0.31_138/0.35),0_12px_40px_oklch(0.92_0.31_138/0.18)]">
       <button
         onClick={() => onClick(product)}
-        className="relative flex aspect-square w-full items-center justify-center text-5xl"
+        className="relative flex aspect-square w-full items-center justify-center overflow-hidden text-5xl"
         style={{ background: gradientStyle[product.gradient] }}
       >
-        <span className={!isAvailable ? "opacity-40 grayscale" : ""}>{product.icon}</span>
+        <span
+          className={`transition-transform duration-300 group-hover:scale-110 ${!isAvailable ? "opacity-40 grayscale" : ""}`}
+        >
+          {product.icon}
+        </span>
         {product.tag && (
           <span
-            className={`absolute left-[7px] top-[7px] rounded-[4px] px-[7px] py-[3px] text-[7.5px] font-black uppercase tracking-[0.8px] ${tagClasses[product.tagVariant ?? "red"]}`}
+            className={`absolute right-[7px] top-[7px] rounded-[5px] px-2 py-[3px] text-[8px] font-black uppercase tracking-[0.9px] shadow-[0_2px_10px_oklch(0_0_0/0.4)] ${tagClasses[product.tagVariant ?? "red"]}`}
           >
             {product.tag}
           </span>
@@ -42,7 +46,7 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
             {status}
           </span>
         )}
-        <span className="absolute bottom-1.5 right-1.5 rounded-[4px] border border-neon/30 bg-black/[0.82] px-1.5 py-[2px] text-[8px] font-extrabold text-neon">
+        <span className="absolute bottom-1.5 left-1.5 rounded-[4px] border border-neon/30 bg-black/[0.82] px-1.5 py-[2px] text-[8px] font-extrabold text-neon">
           {product.condition}
         </span>
         {isAvailable && (
@@ -62,14 +66,16 @@ export function ProductCard({ product, onClick, onReserve }: Props) {
         <div className="mb-0.5 text-[10px] font-black uppercase tracking-[1.2px] text-neon">
           {product.brand}
         </div>
-        <div className="mb-1 text-[12px] leading-[1.3] text-foreground/80">{product.name}</div>
-        <div className="mb-1 flex items-center justify-between">
-          <span className="text-[14px] font-black text-white">{product.price}</span>
+        <div className="mb-1.5 text-[12px] leading-[1.3] text-foreground/80">{product.name}</div>
+        <div className="mb-1 flex items-baseline justify-between">
+          <span className="text-[18px] font-black text-white [text-shadow:0_0_18px_oklch(0.92_0.31_138/0.35)]">
+            {product.price}
+          </span>
           <span className="text-[10px] text-muted-foreground">{product.size}</span>
         </div>
-        <div className="mb-1.5 text-[10px] italic text-muted-foreground/60">
+        <div className="mb-2 text-[10px] font-semibold text-danger/90">
           {isAvailable
-            ? "Tap to reserve before it's gone"
+            ? "May kaagaw ka dito 👀"
             : status === "RESERVED"
               ? "Reserved — waiting for payment"
               : "Sold out — abangan susunod na drop"}
