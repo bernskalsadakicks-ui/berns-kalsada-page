@@ -35,15 +35,17 @@ export const Route = createFileRoute("/")({
     ],
   }),
   loader: async (): Promise<{ featured: Product[]; all: Product[] }> => {
-    const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
-    return { featured, all };
+    try {
+      const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
+      return { featured, all };
+    } catch {
+      // Surface gracefully — UI will render a fallback message instead of crashing
+      return { featured: [], all: [] };
+    }
   },
-  errorComponent: ({ error }) => (
+  errorComponent: () => (
     <div className="flex min-h-screen items-center justify-center p-6 text-center">
-      <div>
-        <h1 className="mb-2 text-xl font-black text-white">Something went wrong</h1>
-        <p className="text-sm text-muted-foreground">{error.message}</p>
-      </div>
+      <p className="text-sm text-muted-foreground">Products loading...</p>
     </div>
   ),
   notFoundComponent: () => (
