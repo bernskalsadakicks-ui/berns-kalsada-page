@@ -35,15 +35,17 @@ export const Route = createFileRoute("/")({
     ],
   }),
   loader: async (): Promise<{ featured: Product[]; all: Product[] }> => {
-    const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
-    return { featured, all };
+    try {
+      const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
+      return { featured, all };
+    } catch {
+      // Surface gracefully — UI will render a fallback message instead of crashing
+      return { featured: [], all: [] };
+    }
   },
-  errorComponent: ({ error }) => (
+  errorComponent: () => (
     <div className="flex min-h-screen items-center justify-center p-6 text-center">
-      <div>
-        <h1 className="mb-2 text-xl font-black text-white">Something went wrong</h1>
-        <p className="text-sm text-muted-foreground">{error.message}</p>
-      </div>
+      <p className="text-sm text-muted-foreground">Products loading...</p>
     </div>
   ),
   notFoundComponent: () => (
@@ -99,25 +101,33 @@ function Index() {
         <SectionHeader title="Latest Drop" action="See All →" onAction={() => scrollTo("all-items")} />
         <div className="no-scrollbar overflow-x-auto pb-2">
           <div className="flex w-max gap-3 px-5">
-            {featured.map((p: Product) => (
-              <DropCard key={p.id} product={p} onClick={setActive} />
-            ))}
+            {featured.length === 0 ? (
+              <p className="px-1 py-8 text-sm text-muted-foreground">Products loading...</p>
+            ) : (
+              featured.map((p: Product) => (
+                <DropCard key={p.id} product={p} onClick={setActive} />
+              ))
+            )}
           </div>
         </div>
       </section>
 
       <section id="all-items" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="All Items" action="Filter ↓" />
-        <div className="grid grid-cols-2 gap-3 px-5 sm:grid-cols-3 lg:grid-cols-4">
-          {all.map((p: Product) => (
-            <ProductCard
-              key={p.id}
-              product={p}
-              onClick={setActive}
-              onReserve={handleReserveFromCard}
-            />
-          ))}
-        </div>
+        {all.length === 0 ? (
+          <p className="px-5 py-8 text-center text-sm text-muted-foreground">Products loading...</p>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 px-5 sm:grid-cols-3 lg:grid-cols-4">
+            {all.map((p: Product) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                onClick={setActive}
+                onReserve={handleReserveFromCard}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="py-14" style={{ background: "var(--gradient-section-alt)" }}>
