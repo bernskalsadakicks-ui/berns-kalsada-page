@@ -18,6 +18,7 @@ export type Product = {
   condition: string;
   image: string;
   status: ProductStatus;
+  notes?: string;
 
   // Optional presentation hints (used until every product has a real image)
   icon?: string;
