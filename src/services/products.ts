@@ -83,10 +83,32 @@ function pickTagVariant(status: ProductStatus): TagVariant {
   return "red";
 }
 
+function formatPrice(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  // If it already contains a currency symbol or non-digit prefix, return as-is.
+  if (/[^\d.,\s]/.test(trimmed[0])) return trimmed;
+  const num = Number(trimmed.replace(/[,\s]/g, ""));
+  if (!Number.isFinite(num)) return trimmed;
+  return `₱${num.toLocaleString("en-PH")}`;
+}
+
+function formatSize(raw: string): string {
+  const trimmed = raw.trim();
+  if (!trimmed) return "—";
+  return /^(size|us|eu)/i.test(trimmed) ? trimmed : `Size ${trimmed}`;
+}
+
 function rowToProduct(headers: string[], cells: string[], index: number): Product | null {
-  const get = (key: string): string => {
-    const idx = headers.indexOf(key);
-    return idx >= 0 ? (cells[idx] ?? "").trim() : "";
+  const get = (...keys: string[]): string => {
+    for (const key of keys) {
+      const idx = headers.indexOf(key);
+      if (idx >= 0) {
+        const val = (cells[idx] ?? "").trim();
+        if (val) return val;
+      }
+    }
+    return "";
   };
 
   const id = get("id") || `row-${index}`;
@@ -102,10 +124,10 @@ function rowToProduct(headers: string[], cells: string[], index: number): Produc
     id,
     name,
     brand,
-    size: get("size"),
-    price: get("price"),
-    condition: get("condition"),
-    image: get("image"),
+    size: formatSize(get("size")),
+    price: formatPrice(get("price")),
+    condition: get("condition") || "—",
+    image: get("image", "imageurl", "image url", "image_url", "img"),
     status,
     notes: get("notes") || undefined,
     icon,
