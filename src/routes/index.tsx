@@ -15,6 +15,7 @@ import { StickyCTA } from "@/components/landing/StickyCTA";
 import { Footer } from "@/components/landing/Footer";
 import { fetchAllProducts, fetchFeaturedProducts } from "@/services/products";
 import type { Product } from "@/data/products";
+import { messengerLink } from "@/lib/supabase";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,7 +40,6 @@ export const Route = createFileRoute("/")({
       const [featured, all] = await Promise.all([fetchFeaturedProducts(), fetchAllProducts()]);
       return { featured, all };
     } catch {
-      // Surface gracefully — UI will render a fallback message instead of crashing
       return { featured: [], all: [] };
     }
   },
@@ -64,8 +64,21 @@ function Index() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
 
+  // Generic message — no product context (Hero, StickyCTA)
   const openMessenger = useCallback(() => {
-    window.open("https://m.me/", "_blank", "noopener,noreferrer");
+    const url = messengerLink(
+      "Hi! Interested ako sa inyong latest drops. Anong available ngayon?"
+    );
+    window.open(url, "_blank", "noopener,noreferrer");
+  }, []);
+
+  // Product-specific message — called from ProductModal
+  const openMessengerForProduct = useCallback((product: Product) => {
+    const priceStr = String(product.price);
+    const url = messengerLink(
+      `Hi! Interested ako sa: ${product.brand} ${product.name} | Size: ${product.size} | Price: ${priceStr} | Condition: ${product.condition}. Available pa ba ito?`
+    );
+    window.open(url, "_blank", "noopener,noreferrer");
   }, []);
 
   const handleReserveFromCard = useCallback(
@@ -98,7 +111,11 @@ function Index() {
         className="py-14"
         style={{ background: "var(--gradient-section-alt)" }}
       >
-        <SectionHeader title="Latest Drop" action="See All →" onAction={() => scrollTo("all-items")} />
+        <SectionHeader
+          title="Latest Drop"
+          action="See All →"
+          onAction={() => scrollTo("all-items")}
+        />
         <div className="no-scrollbar overflow-x-auto pb-2">
           <div className="flex w-max gap-3 px-5">
             {featured.length === 0 ? (
@@ -115,7 +132,9 @@ function Index() {
       <section id="all-items" className="py-14" style={{ background: "var(--gradient-section)" }}>
         <SectionHeader title="All Items" action="Filter ↓" />
         {all.length === 0 ? (
-          <p className="px-5 py-8 text-center text-sm text-muted-foreground">Products loading...</p>
+          <p className="px-5 py-8 text-center text-sm text-muted-foreground">
+            Products loading...
+          </p>
         ) : (
           <div className="grid grid-cols-2 gap-3 px-5 sm:grid-cols-3 lg:grid-cols-4">
             {all.map((p: Product) => (
@@ -154,7 +173,7 @@ function Index() {
       <ProductModal
         product={active}
         onClose={() => setActive(null)}
-        onMessage={openMessenger}
+        onMessage={() => active && openMessengerForProduct(active)}
         onReserve={() => {
           setActive(null);
           scrollTo("reserve-form");

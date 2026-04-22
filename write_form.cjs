@@ -1,4 +1,5 @@
-import { useState, useRef, type FormEvent } from "react";
+const fs = require('fs');
+const content = `import { useState, useRef, type FormEvent } from "react";
 import type { Product } from "@/data/products";
 import { supabase, messengerLink } from "@/lib/supabase";
 
@@ -30,7 +31,7 @@ export function OrderForm({ formId, items = [] }: { formId: string; items?: Prod
     setLoading(true);
     setError("");
     const item = items.find((p) => p.id === selected);
-    const priceNum = item ? parseFloat(String(item.price).replace(/[^\d.]/g, "")) : 0;
+    const priceNum = item ? parseFloat(String(item.price).replace(/[^\\d.]/g, "")) : 0;
     const { error: sbError } = await supabase.from("orders").insert({
       buyer_name: nameRef.current!.value.trim(),
       contact_number: contactRef.current!.value.trim(),
@@ -126,3 +127,6 @@ function Field({ label, error, children }: { label: string; error?: string; chil
     </div>
   );
 }
+`;
+fs.writeFileSync('src/components/landing/OrderForm.tsx', content, 'utf8');
+console.log('Done! File written successfully.');

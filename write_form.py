@@ -1,4 +1,5 @@
-import { useState, useRef, type FormEvent } from "react";
+content = open('src/components/landing/OrderForm.tsx', 'w', encoding='utf-8')
+content.write("""import { useState, useRef, type FormEvent } from "react";
 import type { Product } from "@/data/products";
 import { supabase, messengerLink } from "@/lib/supabase";
 
@@ -30,7 +31,7 @@ export function OrderForm({ formId, items = [] }: { formId: string; items?: Prod
     setLoading(true);
     setError("");
     const item = items.find((p) => p.id === selected);
-    const priceNum = item ? parseFloat(String(item.price).replace(/[^\d.]/g, "")) : 0;
+    const priceNum = item ? parseFloat(String(item.price).replace(/[^\\d.]/g, "")) : 0;
     const { error: sbError } = await supabase.from("orders").insert({
       buyer_name: nameRef.current!.value.trim(),
       contact_number: contactRef.current!.value.trim(),
@@ -59,16 +60,20 @@ export function OrderForm({ formId, items = [] }: { formId: string; items?: Prod
       <div id={formId} className="px-5 pb-6">
         <div className="rounded-[14px] border border-border bg-surface-3 p-5 sm:p-6">
           <div className="rounded-lg border border-neon/30 bg-neon/10 p-5 text-center">
+            <div className="mb-2 text-3xl">OK</div>
             <div className="mb-1 text-[16px] font-black text-white">Reserved na!</div>
             <p className="mb-4 text-[12px] text-muted-foreground">
-              Mag-abang ng confirmation via Messenger. First to pay gets the item.
+              Mag-abang ng confirmation via Messenger.
+              <span className="font-bold text-foreground"> First to pay gets the item.</span>
             </p>
-            <button
-              onClick={() => window.open(confirmLink, "_blank")}
-              className="w-full rounded-[9px] border border-cyan/40 bg-cyan/10 py-3 text-[13px] font-black text-cyan transition hover:bg-cyan/20"
+            
+              href={confirmLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-[9px] border border-cyan/40 bg-cyan/10 py-3 text-[13px] font-black text-cyan transition hover:bg-cyan/20"
             >
               Message Us to Confirm
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -126,3 +131,6 @@ function Field({ label, error, children }: { label: string; error?: string; chil
     </div>
   );
 }
+""")
+content.close()
+print("Done")
