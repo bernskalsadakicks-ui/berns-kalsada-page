@@ -1,7 +1,2 @@
-{
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "berns-kalsada-page",
-  "compatibility_date": "2025-09-24",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry"
-}
+{" name:erns-kalsada-page,compatibility_date:5-09-24,compatibility_flags:[
+odejs_compat],pages_build_output_dir:dist}
